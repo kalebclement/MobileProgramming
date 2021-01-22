@@ -29,7 +29,7 @@ express.post('/register/data', (req, res) => {
           admin.auth().createCustomToken(UID)
           .then((customToken) =>{
             const response = {status: "ok", message: "register succesfully done"};
-            result.Result = response;
+            result.result = response;
             res.json(result);
           }).catch((error) =>{
             res.send('error creating token : ', error);

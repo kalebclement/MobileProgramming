@@ -54,7 +54,7 @@ express.post('/login/authentication', (req, res ) => {
         admin.auth().createCustomToken(uid)
         .then((customToken) =>{
             const Token = {IDToken: customToken};
-            result.Result = Token;
+            result.result = Token;
             res.json(result);
         }).catch((error) =>{
             res.json('error creating token : ', error);
