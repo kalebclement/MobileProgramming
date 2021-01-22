@@ -77,7 +77,7 @@ express.post('/register/data', (req, res) => {
       var condition = false;
 
     function Duplicate(condition){
-      admin.auth().getUserByPhoneNumber(req.body.PhoneNumber)
+      admin.auth().getUserByPhoneNumber(req.body.phoneNumber)
       .then((check)=>{
           res.send(jsonyes);
       }).catch((error) => {
@@ -87,7 +87,7 @@ express.post('/register/data', (req, res) => {
 
     function ValidateData(Data){
         const schema = Joi.object({
-            PhoneNumber: Joi.string().required(),
+            phoneNumber: Joi.string().required(),
         });
       
         return schema.validate(Data);
