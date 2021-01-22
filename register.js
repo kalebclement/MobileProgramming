@@ -15,7 +15,7 @@ express.post('/register/data', (req, res) => {
     async function create(){
       var fAuth = admin.auth();
       fAuth.languageCode = 'pt';
-      var phoneuser = req.body.PhoneNumber;
+      var phoneuser = req.body.phoneNumber;
       phoneuser = String(phoneuser);
       fAuth.createUser({
         phoneNumber: phoneuser
