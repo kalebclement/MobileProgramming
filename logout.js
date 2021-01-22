@@ -11,7 +11,7 @@ express.use(bodyParser.json());
 
 express.post('/logout', (req, res) => {
     async function Logout(){
-        var reff = db.collection('UserData').doc(req.body.UID);
+        var reff = db.collection('UserData').doc(req.body.uid);
         const ress = await reff.update({Login: false})
         .then((resp) => {
             res.json({status: "ok", message: "logout success"})
@@ -32,7 +32,7 @@ express.post('/logout', (req, res) => {
 
 function ValidateData(Data){
     const schema = Joi.object({
-        UID: Joi.string().required(),
+        uid: Joi.string().required(),
     });
   
     return schema.validate(Data);

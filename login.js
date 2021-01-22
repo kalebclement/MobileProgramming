@@ -93,14 +93,14 @@ express.post('/user/currentToken', (req, res) => {
     function ValidateData(Data){
         const schema = Joi.object({
             currentToken: Joi.string().required(),
-            UID: Joi.string().required(),
+            uid: Joi.string().required(),
         });
       
     return schema.validate(Data);
     }
     
     async function getDestinationFromToken(){
-        const UID = req.body.UID;
+        const UID = req.body.uid;
         let data = {
             CurrentToken: req.body.CurrentToken,
             Login: true
