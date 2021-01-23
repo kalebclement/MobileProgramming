@@ -40,7 +40,8 @@ express.post('/register/data', (req, res) => {
             email: req.body.email,
             phoneNumber: req.body.phoneNumber,
             uid: UID,
-            status: "Regular"
+            status: "Regular",
+            login: false
           };
           reff.set(data);
         })

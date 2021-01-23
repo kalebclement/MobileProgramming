@@ -28,8 +28,8 @@ express.post('/login/phonenumber', (req, res) => {
         ref.get()
         .then(doc => {
             if(doc.exists){
-                const data = doc.get('Login');
-                if(data == 'True'){
+                const data = doc.get('login');
+                if(data == true){
                     res.send({ status : "error", message: "user with this phone number had already logged in"});
                 }
                 else{
@@ -102,11 +102,11 @@ express.post('/user/currentToken', (req, res) => {
     async function getDestinationFromToken(){
         const UID = req.body.uid;
         let data = {
-            CurrentToken: req.body.CurrentToken,
-            Login: true
+            currentToken: req.body.currentToken,
+            login: true
         }
         var reff = db.collection('UserData').doc(UID);
-        const ress = await reff.update({CurrentToken: data.CurrentToken, Login: data.Login})
+        const ress = await reff.update({currentToken: data.currentToken, login: data.login})
         .then((resp) => {
             res.send({
                 status: "ok",
