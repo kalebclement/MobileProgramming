@@ -28,7 +28,7 @@ app.use('/profile', express.static('upload/images'));
 app.post('/upload', upload.single('profile'), (req,res) => {
     res.json({
         status: "ok",
-        url: `http://localhost:8000/profile/${req.file.filename}`
+        url: `https://pandu-teman.herokuapp.com/profile/${req.file.filename}`
     })
 })
 

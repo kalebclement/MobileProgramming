@@ -25,13 +25,30 @@ app.post('/explore/input/:City', (req,res) => {
     var pricekids = req.body.pricekids;
     var description = req.body.description;
     var price = {adults: priceadults, kids: pricekids};
+    var displayurl = {url: req.body.image_display}
+    var image1 = req.body.image1;
+    var image2 = req.body.image2;
+    var image3 = req.body.image3;
+    var otherimage =  {
+        1: image1,
+        2: image2,
+        3: image3,
+    }
+
+    var image = {
+        display: displayurl,
+        other: otherimage,
+    }
+
+
     let data = {
         place_uid : key,
         place_name: placename,
         location_detail : locationdetail,
         price : price,
         opening_hours: openinghours,
-        description: description
+        description: description,
+        image: image,
     }
     
     inputreff.set(data).then( ()=> {
