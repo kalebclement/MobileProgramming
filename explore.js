@@ -21,6 +21,7 @@ app.post('/explore/input/:City', (req,res) => {
     var placename = req.body.place_name;
     var openinghours = req.body.opening_hours;
     var locationdetail = req.body.location_detail;
+    var locationmap = req.body.location_map;
     var priceadults = req.body.priceadults;
     var pricekids = req.body.pricekids;
     var description = req.body.description;
@@ -45,6 +46,7 @@ app.post('/explore/input/:City', (req,res) => {
         place_uid : key,
         place_name: placename,
         location_detail : locationdetail,
+        location_map: locationmap,
         price : price,
         opening_hours: openinghours,
         description: description,
