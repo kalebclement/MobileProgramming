@@ -49,6 +49,7 @@ app.post('/explore/input/:City', (req,res) => {
         opening_hours: openinghours,
         description: description,
         image: image,
+        rating : 0,
     }
     
     inputreff.set(data).then( ()=> {
