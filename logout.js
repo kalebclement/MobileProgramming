@@ -12,7 +12,7 @@ express.use(bodyParser.json());
 express.post('/logout', (req, res) => {
     async function Logout(){
         var reff = db.collection('UserData').doc(req.body.uid);
-        const ress = await reff.update({Login: false})
+        const ress = await reff.update({login: false})
         .then((resp) => {
             res.json({status: "ok", message: "logout success"})
         }).catch((err) => {
