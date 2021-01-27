@@ -5,8 +5,6 @@ const bodyParser = require('body-parser');
 var db = admin.firestore();
 var dbrealtime = admin.database();
 const Joi = require('joi');
-const jsonyes = require('./JsonFile/login-Phone-true.json');
-const jsonno = require('./JsonFile/login-Phone-false.json');
 var app = express();
 app.use(bodyParser.json());
 const { DocumentSnapshot, QueryDocumentSnapshot, QuerySnapshot } = require('@google-cloud/firestore');
