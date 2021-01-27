@@ -10,6 +10,7 @@ app.use(bodyParser.json());
 app.get('/home', (req, res) => {
 var data = [];
 var reff = dbrealtime.ref('Home');
+const Result = {};
 reff.get()
 .then((doc) => {
     doc.forEach(snapshot => {
@@ -18,10 +19,10 @@ reff.get()
             description: snapshot.val().description,
             imageURL: snapshot.val().imageURL,
         }
-        console.log(snap);
         data.push(snap);
     })
-    
+    Result.result = data;
+    res.json(Result);
 })
 
 });
