@@ -60,17 +60,118 @@ app.post('/explore/input/:City', (req,res) => {
     
     
     });
+
+    app.get('/explore/:city', (req, res) => {
+
+        const city = req.params.city;
+        let data = [];
+            const reff = dbrealtime.ref('Explore').child('City').child(city);
+            reff.get()
+            .then( (doc) => {
+                doc.forEach(snapshot => {
+                    
+                    const imageURl = snapshot.val().image.display.url;
+                    const place_name = snapshot.val().place_name;
+                    var price;
+                    var adultprice = snapshot.val().price.adults;
+                    var kidsprice = snapshot.val().price.kids;
+                    if(adultprice > kidsprice){
+                        price = kidsprice;
+                    }else{
+                        price = adultprice;
+                    }
+                    const place_uid = snapshot.val().place_uid;
+                    const rating = snapshot.val().rating;
+                    data.push({
+                        imageURl : imageURl,
+                        place_name : place_name,
+                        place_uid: place_uid,
+                        price: price,
+                        rating: rating,
+                    })
+                })
+                let result = {};
+                result.result = data;
+                res.json(result);
+            })
+        
+
+
+    });
+
+    app.get('/explore/:city/:place_uid', (req, res) => {
+        let data = [];
+        let relateddata = [];
+        const city = req.params.city;
+        const place_uid = req.params.place_uid;
+        const reff = dbrealtime.ref('Explore').child('City').child(city);
+        const reffdetail = reff.child(place_uid);
+        
+        // get related tour attraction
+        reff.get()
+        .then((doc) => {
+            doc.forEach((snapshot) => {
+                if(snapshot.val().place_uid != place_uid){
+                    var adultprice = snapshot.val().price.adults;
+                    var kidsprice = snapshot.val().price.kids;
+                    var price;
+                    if(adultprice > kidsprice){
+                        price = kidsprice;
+                    }else{
+                        price = adultprice;
+                    }
+
+                    relateddata.push({
+                        imageURL: snapshot.val().image.display.url,
+                        place_name: snapshot.val().place_name,
+                        place_uid: snapshot.val().place_uid,
+                        price: price,
+                        rating: snapshot.val().rating,
+                    })
+                }
+            })
+        })
+
+        reffdetail.get()
+        .then((doc) => {
+            const snapshot = doc;
+                const display = snapshot.val().image.display.url;
+                const other_1 = snapshot.val().image.other[1];
+                const other_2 = snapshot.val().image.other[2];
+                const other_3 = snapshot.val().image.other[3];
+                const adult = snapshot.val().price.adults;
+                const kid = snapshot.val().price.kids;
+                const facildata = [];
+                const facilities = snapshot.val().facilities;
+                facilities.forEach((dat) => {
+                    if(dat != null){
+                        facildata.push(dat);
+                    }
+                })
+                
+                data.push({
+                    description: snapshot.val().description,
+                    location_detailL: snapshot.val().location_detail,
+                    location_map: snapshot.val().location_map,
+                    opening_hours: snapshot.val().opening_hours,
+                    place_name: snapshot.val().place_name,
+                    place_uid: snapshot.val().place_uid,
+                    rating: snapshot.val().rating,
+                    imageURL: { display, other_1, other_2, other_3},
+                    price: { adult, kid },
+                    facilities: facildata,
+                    relatedexplore: relateddata,
+                })
+
+            
+            let result = {};
+            result.result = data;
+            res.json(result);
+        })
+
+    });
+
     
-    // app.post('/explore/input', (req,res) => {
-    //    res.send("test") 
-    // });
+    
 
 module.exports = app;
-
-// {
-//     "place_uid" : "auto",
-//     "place_name" : "The Great Asia Africa",
-//     "price" : 340000,
-//     "opening_hours": "09.00 - 18.00",
-//     "detail": "Looking for a quick escape without having to leave the country ? Come visit the great asia afrika where you can exploce 10 countries in 1 place."
-// }
