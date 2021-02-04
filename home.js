@@ -27,4 +27,18 @@ reff.get()
 
 });
 
+app.get('/user/info/:uid', (req,res) => {
+    var uid = req.params.uid;
+    const reff = db.collection('UserData').doc(uid);
+    reff.get()
+    .then(doc => {
+        let data = {
+            fullName: doc.data().fullName,
+            phoneNumber: doc.data().phoneNumber,
+            email: doc.data().email,
+        }
+        res.json(data);
+    })
+})
+
 module.exports = app;

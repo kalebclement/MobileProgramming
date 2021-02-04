@@ -6,9 +6,6 @@ const Joi = require('joi');
 const jsonyes = require('./JsonFile/login-Phone-true.json');
 const jsonno = require('./JsonFile/login-Phone-false.json');
 express.use(bodyParser.json());
-const { DocumentSnapshot, QueryDocumentSnapshot, QuerySnapshot } = require('@google-cloud/firestore');
-const { IdTokenClient } = require('google-auth-library');
-
 
 express.post('/login/phonenumber', (req, res) => {
     var condition = false;
