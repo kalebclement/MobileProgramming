@@ -115,4 +115,38 @@ app.post('/ticket/booking', (req,res) => {
     }
 })
 
+app.post('/search', (req, res) => {
+    function ValidateData(Data){
+        const schema = Joi.object({
+            city: Joi.string().required(),
+            price_range: Joi.number().required(),
+            number_of_adult: Joi.number().required(),
+            number_of_kid: Joi.number().required(),
+            booking_date: Joi.string().required(),
+        });
+      
+    return schema.validate(Data);
+    }
+
+    const result = ValidateData(req.body);
+    if(result.error){
+        res.status(400).send(result.error.details[0].message);
+      }else{
+        let date_ob = new Date();
+
+    // adjust 0 before single digit date
+    let date = ("0" + date_ob.getDate()).slice(-2);
+
+    // current month
+    let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+
+    // current year
+    let year = date_ob.getFullYear();
+
+    // prints date in YYYY-MM-DD format
+    console.log(year + "-" + month + "-" + date);
+      }
+
+})
+
 module.exports = app;
