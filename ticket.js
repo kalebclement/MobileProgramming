@@ -144,7 +144,7 @@ app.post('/search', (req, res) => {
     let year = date_ob.getFullYear();
 
     // prints date in YYYY-MM-DD format
-    console.log(year + "-" + month + "-" + date);
+    res.send(year + "-" + month + "-" + date);
       }
 
 })
