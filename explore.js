@@ -83,7 +83,7 @@ app.post('/explore/input/:City', (req,res) => {
                     const place_uid = snapshot.val().place_uid;
                     const rating = snapshot.val().rating;
                     data.push({
-                        imageURl : imageURl,
+                        imageURL : imageURl,
                         place_name : place_name,
                         place_uid: place_uid,
                         price: price,

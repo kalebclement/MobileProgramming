@@ -8,6 +8,7 @@ var Explore = require('./explore');
 var Images = require('./image')
 var Home = require('./home');
 var Ticket = require('./ticket')
+var Task = require('./task');
 
 var http = require('http');
 var app = express();
@@ -19,6 +20,7 @@ app.use(Explore);
 app.use(Images);
 app.use(Home);
 app.use(Ticket);
+app.use(Task);
 
 const port = process.env.PORT || 8000;
 server.listen(port, () => console.log(`Listening Port ${port} ......`));

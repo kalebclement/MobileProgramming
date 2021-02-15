@@ -60,7 +60,6 @@ app.post('/ticket/booking', (req,res) => {
             place_uid: Joi.string().required(),
             number_of_adult: Joi.number().required(),
             number_of_kid: Joi.number().required(),
-            booking_date: Joi.string().required(),
         });
       
     return schema.validate(Data);
@@ -78,7 +77,28 @@ app.post('/ticket/booking', (req,res) => {
         var place_uid = req.body.place_uid;
         var number_of_adult = req.body.number_of_adult;
         var number_of_kid = req.body.number_of_kid;
-        var booking_date = req.body.booking_date;
+
+        let date_ob = new Date();
+
+        // current date
+        // adjust 0 before single digit date
+        let date = ("0" + date_ob.getDate()).slice(-2);
+        
+        // current month
+        let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+        
+        // current year
+        let year = date_ob.getFullYear();
+        
+        // current hours
+        let hours = date_ob.getHours();
+        
+        // current minutes
+        let minutes = date_ob.getMinutes();
+        
+        // current seconds
+        let seconds = date_ob.getSeconds();
+        var booking_date = year + "/" + month + "/" + date;
 
         const reffprice = dbrealtime.ref('Explore').child('City').child(city).child(place_uid);
         reffprice.get()
@@ -100,6 +120,7 @@ app.post('/ticket/booking', (req,res) => {
             let data = {
                 ticket_id: key,
                 place_uid: place_uid,
+                city: city,
                 number_of_adult: number_of_adult,
                 number_of_kid: number_of_kid,
                 total_price : total_price,
@@ -113,59 +134,6 @@ app.post('/ticket/booking', (req,res) => {
         
         
     }
-})
-
-app.post('/search', (req, res) => {
-    function ValidateData(Data){
-        const schema = Joi.object({
-            city: Joi.string().required(),
-            price_range: Joi.number().required(),
-            number_of_adult: Joi.number().required(),
-            number_of_kid: Joi.number().required(),
-            booking_date: Joi.string().required(),
-        });
-      
-    return schema.validate(Data);
-    }
-
-    const result = ValidateData(req.body);
-    if(result.error){
-        res.status(400).send(result.error.details[0].message);
-      }else{
-        let date_ob = new Date();
-
-        // current date
-        // adjust 0 before single digit date
-        let date = ("0" + date_ob.getDate()).slice(-2);
-        
-        // current month
-        let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
-        
-        // current year
-        let year = date_ob.getFullYear();
-        
-        // current hours
-        let hours = date_ob.getHours();
-        
-        // current minutes
-        let minutes = date_ob.getMinutes();
-        
-        // current seconds
-        let seconds = date_ob.getSeconds();
-        
-        // prints date in YYYY-MM-DD format
-        console.log(year + "-" + month + "-" + date);
-        
-        // prints date & time in YYYY-MM-DD HH:MM:SS format
-        
-        
-        // prints time in HH:MM format
-        console.log(hours + ":" + minutes);
-        res.send(year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds);
-
-
-      }
-
 })
 
 module.exports = app;
