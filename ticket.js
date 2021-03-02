@@ -58,8 +58,10 @@ app.post('/ticket/booking', (req,res) => {
         const schema = Joi.object({
             city: Joi.string().required(),
             place_uid: Joi.string().required(),
-            number_of_adult: Joi.number().required(),
-            number_of_kid: Joi.number().required(),
+            number_of_adults: Joi.number().required(),
+            number_of_kids: Joi.number().required(),
+            user_uid: Joi.string().required(),
+            booking_date: Joi.string().required(),
         });
       
     return schema.validate(Data);
@@ -75,8 +77,10 @@ app.post('/ticket/booking', (req,res) => {
     function bookticket(){
         var city = req.body.city;
         var place_uid = req.body.place_uid;
-        var number_of_adult = req.body.number_of_adult;
-        var number_of_kid = req.body.number_of_kid;
+        var number_of_adult = req.body.number_of_adults;
+        var number_of_kid = req.body.number_of_kids;
+        var user_uid = req.body.user_uid;
+        var booking_date = req.body.booking_date;
 
         let date_ob = new Date();
 
@@ -98,7 +102,7 @@ app.post('/ticket/booking', (req,res) => {
         
         // current seconds
         let seconds = date_ob.getSeconds();
-        var booking_date = year + "/" + month + "/" + date;
+        //var booking_date = year + "/" + month + "/" + date;
 
         const reffprice = dbrealtime.ref('Explore').child('City').child(city).child(place_uid);
         reffprice.get()
@@ -125,6 +129,7 @@ app.post('/ticket/booking', (req,res) => {
                 number_of_kid: number_of_kid,
                 total_price : total_price,
                 booking_date: booking_date,
+                user_uid : user_uid,
             }
             console.log(data)
 
