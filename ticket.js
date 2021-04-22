@@ -5,16 +5,11 @@ const bodyParser = require('body-parser');
 var db = admin.firestore();
 var dbrealtime = admin.database();
 const Joi = require('joi');
+const { ref } = require('joi');
 var app = express();
 app.use(bodyParser.json());
 
 function checkavailable(city, place_uid, number_of_adults, number_of_kids, booking_date){
-    // var ts = new Date();
-    // console.log(ts.getDate());
-    // console.log(ts.toLocaleDateString());
-
-    // console.log(ts.toDateString());
-    // console.log(ts.toTimeString());
     const reff = dbrealtime.ref('Ticket').child(city).child(place_uid).child(booking_date);
     const max = 5;
     reff.get().then(doc => {
@@ -52,6 +47,31 @@ app.post('/ticket/available', (req,res) => {
         checkavailable(req.body.city, req.body.place_uid, req.body.number_of_adults, req.body.number_of_kids, req.body.booking_date);
       }
 })
+
+app.get('/user/ticket/get/:uid', (req, res) => {
+    const UID = req.params.uid;
+    let data = [];
+    var reff = dbrealtime.ref("Ticket");
+    reff.once('value', (city) => {
+        city.forEach(citydat => {
+            citydat.forEach(cityuid => {
+                cityuid.forEach(year => {
+                    year.forEach(month => {
+                        month.forEach(date => {
+                            date.forEach(ticket => {
+                                if(ticket.val().user_uid == UID){
+                                    data.push(ticket.val());
+                                }
+                            })
+                        })
+                    })
+                })
+            })
+        })
+        res.send(data);
+    })
+
+});
 
 app.post('/ticket/booking', (req,res) => {
     function ValidateData(Data){

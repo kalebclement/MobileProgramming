@@ -43,9 +43,7 @@ app.get('/task/innerjoin', (req,res) => {
     const userRef = db.collection('UserData');
     let result = [];
    
-
     function getUserUID(key_ticket, cb){
-        
         key_ticket.once('child_added', snapshot => {
             result.push(snapshot.val());
 
@@ -60,10 +58,8 @@ app.get('/task/innerjoin', (req,res) => {
                 })
             })
             
-        })
-        
+        })  
     }
-
     getUserUID(key_ticket, snap => {
         res.send(result);
     });
