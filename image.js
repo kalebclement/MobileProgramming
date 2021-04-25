@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 
 //set storage
 const storage = multer.diskStorage({
-    destination: "./upload/images",
+    destination: "./upload/profile/images",
     filename: (req, file, cb) => {
         return cb(
             null,
@@ -24,13 +24,50 @@ const upload = multer({
     storage: storage,
 })
 
-app.use('/profile', express.static('upload/images'));
-app.post('/upload', upload.single('profile'), (req,res) => {
-    res.json({
-        status: "ok",
-        url: `https://pandu-teman.herokuapp.com/profile/${req.file.filename}`
+app.use('/profile', express.static('upload/profile'));
+app.post('/upload/:uid', upload.single('profile'), (req,res) => {
+    const uid = req.params.uid;
+    const url = `https://pandu-teman.herokuapp.com/profile/images/${req.file.filename}`;
+    const reff = db.collection('UserData').doc(uid);
+    
+    const send = reff.update({
+        ProfilePicture : url
     })
+    .then((resp) => {
+        res.send({
+            status: "ok",
+            message: "User Profile Picture Updated"});
+    }).catch((err) => {
+        res.send({
+            status: "error",
+            message: "Error when updating the user profile picture"});
+    });
+
 })
+
+
+// //set profile storage
+// const profileStorage = multer.diskStorage({
+//     destination: "./upload/profile",
+//     filename: (req, file, cb) => {
+//         return cb(
+//             null,
+//             `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`
+//         );
+//     }
+// })
+
+// const uploadProfile = multer({
+//     storage: profileStorage,
+// })
+
+// app.use('/profile', express.static('/upload/profile'));
+// app.post('/upload/profile', uploadProfile.single('/profile'), (req,res) => {
+//     res.json({
+//         status: "ok",
+//         url: `https://pandu-teman.herokuapp.com/user/profile/${req.file.filename}`
+//     })
+// })
 
 module.exports = app;
 
