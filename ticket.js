@@ -48,7 +48,7 @@ app.post('/ticket/available', (req,res) => {
       }
 })
 
-app.get('/user/ticket/get/:uid', (req, res) => {
+app.get('/user/ticket/:uid', (req, res) => {
     const UID = req.params.uid;
     let data = [];
     var reff = dbrealtime.ref("Ticket");

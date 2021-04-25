@@ -124,4 +124,15 @@ express.post('/user/currentToken', (req, res) => {
 
 })
 
+express.get('/profile/user/:uid', (req, res) => {
+    const uid = req.params.uid;
+    const reff = db.collection('UserData').doc(uid);
+    reff.get()
+    .then(doc => {
+        if(doc.exists){
+            res.json(doc.data());
+        }
+    });
+});
+
 module.exports = express;

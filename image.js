@@ -45,29 +45,11 @@ app.post('/upload/:uid', upload.single('profile'), (req,res) => {
 
 })
 
-
-// //set profile storage
-// const profileStorage = multer.diskStorage({
-//     destination: "./upload/profile",
-//     filename: (req, file, cb) => {
-//         return cb(
-//             null,
-//             `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`
-//         );
-//     }
-// })
-
-// const uploadProfile = multer({
-//     storage: profileStorage,
-// })
-
-// app.use('/profile', express.static('/upload/profile'));
-// app.post('/upload/profile', uploadProfile.single('/profile'), (req,res) => {
-//     res.json({
-//         status: "ok",
-//         url: `https://pandu-teman.herokuapp.com/user/profile/${req.file.filename}`
-//     })
-// })
+app.get('user/profile/:uid', (req, res) => {
+    const uid = req.params.uid;
+    const reff = db.collection('UserData').doc(uid);
+    console.log(reff.get());
+})
 
 module.exports = app;
 
