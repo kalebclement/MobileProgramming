@@ -36,7 +36,9 @@ app.post('/upload/:uid', upload.single('profile'), (req,res) => {
     .then((resp) => {
         res.send({
             status: "ok",
-            message: "User Profile Picture Updated"});
+            message: "User Profile Picture Updated",
+            url : url,
+        });
     }).catch((err) => {
         res.send({
             status: "error",
@@ -45,11 +47,6 @@ app.post('/upload/:uid', upload.single('profile'), (req,res) => {
 
 })
 
-app.get('user/profile/:uid', (req, res) => {
-    const uid = req.params.uid;
-    const reff = db.collection('UserData').doc(uid);
-    console.log(reff.get());
-})
 
 module.exports = app;
 
