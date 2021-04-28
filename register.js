@@ -41,7 +41,8 @@ express.post('/register/data', (req, res) => {
             phoneNumber: req.body.phoneNumber,
             uid: UID,
             status: "Regular",
-            login: false
+            login: false,
+            ProfilePicture: "https://pandu-teman.herokuapp.com/profile/images/profile_1619347756737.jpeg"
           };
           reff.set(data);
         })
